@@ -21,7 +21,7 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = [host.strip() for host in os.environ.get('ALLOWED_HOSTS', '*').split(',')]
+ALLOWED_HOSTS = [host.strip() for host in os.environ.get('ALLOWED_HOSTS', '').split(',') if host.strip()]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -130,12 +130,14 @@ LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 CORS_ALLOW_ALL_ORIGINS = True
-# CSRF Configuration for production
+
+# CSRF Configuration for Railway/production
 CSRF_TRUSTED_ORIGINS = [
     origin.strip() 
     for origin in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') 
     if origin.strip()
 ]
+
 # ── Email ─────────────────────────────────────────────────────────────────────
 # Set EMAIL_HOST (and friends) via environment variables to use any SMTP
 # provider (Gmail, Outlook, Mailgun, SendGrid, etc.).
