@@ -133,6 +133,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # CSRF Configuration for Railway/production
 CSRF_TRUSTED_ORIGINS = [
+    'https://cloudattendancesystem-production.up.railway.app',
+    'https://*.railway.app',
     origin.strip() 
     for origin in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') 
     if origin.strip()
