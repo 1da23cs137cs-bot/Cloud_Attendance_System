@@ -143,11 +143,12 @@ CSRF_TRUSTED_ORIGINS = [
 
 # Add from environment if provided
 if os.environ.get('CSRF_TRUSTED_ORIGINS'):
-    CSRF_TRUSTED_ORIGINS.extend([
+    extra_origins = [
         origin.strip() 
         for origin in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') 
         if origin.strip()
-    ])
+    ]
+    CSRF_TRUSTED_ORIGINS.extend(extra_origins)
 
 # ── Email ─────────────────────────────────────────────────────────────────────
 # Set EMAIL_HOST (and friends) via environment variables to use any SMTP
