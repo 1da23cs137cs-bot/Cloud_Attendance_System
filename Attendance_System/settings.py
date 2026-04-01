@@ -22,6 +22,10 @@ SECRET_KEY = os.environ.get(
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = [host.strip() for host in os.environ.get('ALLOWED_HOSTS', '').split(',') if host.strip()]
+# Debug: Print environment variables (remove after testing)
+import sys
+print(f"DEBUG: ALLOWED_HOSTS = {ALLOWED_HOSTS}", file=sys.stderr)
+print(f"DEBUG: CSRF_TRUSTED_ORIGINS = {CSRF_TRUSTED_ORIGINS}", file=sys.stderr)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -134,11 +138,16 @@ CORS_ALLOW_ALL_ORIGINS = True
 # CSRF Configuration for Railway/production
 CSRF_TRUSTED_ORIGINS = [
     'https://cloudattendancesystem-production.up.railway.app',
-    'https://*.railway.app',
-    origin.strip() 
-    for origin in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') 
-    if origin.strip()
+    'https://*.up.railway.app',
 ]
+
+# Add from environment if provided
+if os.environ.get('CSRF_TRUSTED_ORIGINS'):
+    CSRF_TRUSTED_ORIGINS.extend([
+        origin.strip() 
+        for origin in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') 
+        if origin.strip()
+    ])
 
 # ── Email ─────────────────────────────────────────────────────────────────────
 # Set EMAIL_HOST (and friends) via environment variables to use any SMTP
